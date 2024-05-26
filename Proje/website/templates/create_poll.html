@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+{% block title %}Oylama Oluştur{% endblock %}
+{% block content %}
+<h3 align="center">Oylama Oluştur</h3>
+{% if user.is_authenticated %}
+<p>Hoş geldin, {{ user.first_name }}!</p>
+{% endif %}
+<form method="POST" action="{{ url_for('views.create_poll') }}">
+  {{ form.hidden_tag() }}
+  <div class="form-group">
+      <label for="question">Soru</label>
+      {{ form.question(class="form-control") }}
+  </div>
+  <div id="options-container">
+      <div class="option-group">
+          <div class="form-group d-flex align-items-center">
+              <input type="text" name="options" class="form-control flex-grow-1" placeholder="Seçenek 1" required>
+              <button type="button" class="btn btn-outline-danger remove-option ml-2">
+                  <i class="fa fa-trash"></i>
+              </button>
+          </div>
+      </div>
+  </div>
+  <button type="button" class="btn btn-primary" onclick="addOption()">Seçenek Ekle</button>
+  <div class="form-group">
+      <label for="group_id">Grup</label>
+      {{ form.group_id(class="form-control") }}
+  </div>
+  <div class="form-group">
+    <label for="duration">Aktif Kalma Süresi</label>
+    <div class="row">
+        <div class="col-md-4">
+            <input type="number" id="days" name="days" class="form-control" placeholder="Gün" min="0" required>
+            <small class="form-text text-muted">Gün</small>
+        </div>
+        <div class="col-md-4">
+            <input type="number" id="hours" name="hours" class="form-control" placeholder="Saat" min="0" max="23" required>
+            <small class="form-text text-muted">Saat</small>
+        </div>
+        <div class="col-md-4">
+            <input type="number" id="minutes" name="minutes" class="form-control" placeholder="Dakika" min="0" max="59" required>
+            <small class="form-text text-muted">Dakika</small>
+        </div>
+    </div>
+  </div>
+  <br>
+  <button type="submit" class="btn btn-primary">Anket Oluştur</button>
+</form>
+
+<script>
+  function addOption() {
+      const optionsContainer = document.getElementById('options-container');
+      const optionGroup = document.createElement('div');
+      optionGroup.className = 'option-group';
+
+      const index = optionsContainer.getElementsByClassName('option-group').length + 1;
+
+      const formGroup = document.createElement('div');
+      formGroup.className = 'form-group d-flex align-items-center';
+
+      const input = document.createElement('input');
+      input.type = 'text';
+      input.name = 'options';
+      input.className = 'form-control flex-grow-1';
+      input.placeholder = `Seçenek ${index}`;
+      input.required = true;
+
+      formGroup.appendChild(input);
+
+      const removeButton = document.createElement('button');
+      removeButton.type = 'button';
+      removeButton.className = 'btn btn-outline-danger remove-option ml-2';
+      removeButton.innerHTML = '<i class="fa fa-trash"></i>';
+      removeButton.onclick = function() {
+          optionsContainer.removeChild(optionGroup);
+          // Seçeneklerin sırasını güncelle
+          const optionGroups = optionsContainer.getElementsByClassName('option-group');
+          for (let i = 0; i < optionGroups.length; i++) {
+              optionGroups[i].getElementsByTagName('input')[0].placeholder = `Seçenek ${i + 1}`;
+          }
+      };
+
+      formGroup.appendChild(removeButton);
+
+      optionGroup.appendChild(formGroup);
+
+      optionsContainer.appendChild(optionGroup);
+  }
+</script>
+{% endblock %}

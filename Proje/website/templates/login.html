@@ -1,0 +1,28 @@
+{% extends "base.html" %} {% block title %}Giriş{% endblock %} {% block content
+    %}
+    <form method="POST">
+      <h3 align="center">Giriş</h3>
+      <div class="form-group">
+        <label for="email">Email Adresi</label>
+        <input
+          type="email"
+          class="form-control"
+          id="email"
+          name="email"
+          placeholder="Email adresi giriniz"
+        />
+      </div>
+      <div class="form-group">
+        <label for="password">Şifre</label>
+        <input
+          type="password"
+          class="form-control"
+          id="password"
+          name="password"
+          placeholder="Şifre giriniz"
+        />
+      </div>
+      <br />
+      <button type="submit" class="btn btn-primary">Giriş</button>
+    </form>
+    {% endblock %}

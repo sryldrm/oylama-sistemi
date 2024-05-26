@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}Oylama Sonuçları{% endblock %}
+{% block content %}
+<h3 align="center">Oylama Sonuçları</h3>
+<p><strong>Soru:</strong> {{ poll.question }}</p>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Seçenek</th>
+            <th>Oy Sayısı</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for option in poll.get_options() %}
+            <tr>
+                <td>{{ option }}</td>
+                <td>{{ option_vote_counts.get(option, 0) }}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<p><strong>Toplam Oy:</strong> {{ total_votes }}</p>
+<p><a href="{{ url_for('views.home') }}">Ana Sayfa'ya dön</a></p>
+{% endblock %}

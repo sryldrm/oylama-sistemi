@@ -1,0 +1,9 @@
+{% extends "base.html" %} 
+{% block title %}Ana Sayfa{% endblock %} 
+{% block content %}
+    <div class="welcome-message" style="background-image: url('path/to/your/image.jpg');">
+        <h1 style="text-align: center; font-size: 24px; margin-top: 50px;">
+            Sitemize Hoşgeldiniz, {% if g.user.is_authenticated %}{{ user.first_name }}{% else %}Misafir{% endif %}!
+        </h1>
+    </div>
+{% endblock %}
